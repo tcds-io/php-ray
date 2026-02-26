@@ -1,0 +1,52 @@
+{
+  "name": "tcds-io/php-ray",
+  "description": "A Simple way to create rest API resources for your Laravel models.",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=8.4",
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "laravel/framework": "^12.0.0",
+    "nesbot/carbon": "^3.0@dev",
+    "ramsey/uuid": "4.x-dev"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^7.0",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^12.3",
+    "php-cs-fixer/shim": "^3.88"
+  },
+  "autoload": {
+    "psr-4": {
+      "Tcds\\Io\\Ray\\": "src/"
+    },
+    "files": [
+      "fn/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Test\\Tcds\\Io\\Ray\\": "tests/"
+    }
+  },
+  "scripts": {
+    "cs:fix": "vendor/bin/php-cs-fixer fix",
+    "test:cs": "vendor/bin/php-cs-fixer check -v",
+    "test:stan": "vendor/bin/phpstan analyse src --level=max --memory-limit=512M --ansi",
+    "test:unit": "php -d auto_prepend_file=tests/prepend.php vendor/bin/phpunit --testsuite Unit --testdox --color=always",
+    "test:feature": "php -d auto_prepend_file=tests/prepend.php vendor/bin/phpunit --testsuite Feature --testdox --color=always",
+    "tests": [
+      "@test:cs",
+      "@test:stan",
+      "@test:unit",
+      "@test:feature"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": false
+    }
+  }
+}
