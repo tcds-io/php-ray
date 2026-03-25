@@ -17,7 +17,7 @@ readonly class SequentialEventProcessor implements EventProcessor
     public function __construct(
         private EventSubscriberMap $subscribers,
         private HandlerResolver $resolver = new DefaultHandlerResolver(),
-        private EventHydrator $hydrator = new RawPayloadHydrator(),
+        private EventHydrator $hydrator = new JacksonHydrator(),
     ) {
     }
 
@@ -27,7 +27,7 @@ readonly class SequentialEventProcessor implements EventProcessor
             foreach ($this->subscribers->of($event->name) as $subscriber) {
                 $callable = $this->resolver->resolve($subscriber);
 
-                $domainEvent = $this->hydrator->hydrate($event->name, $event->payload, $subscriber);
+                $domainEvent = $this->hydrator->hydrate($event->name, $event->payload, $callable);
 
                 $callable($domainEvent);
             }

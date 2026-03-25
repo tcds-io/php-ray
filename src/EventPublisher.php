@@ -3,12 +3,13 @@
 namespace Tcds\Io\Ray;
 
 use Carbon\CarbonImmutable;
+use Tcds\Io\Ray\Infrastructure\JacksonSerializer;
 
 readonly class EventPublisher
 {
     public function __construct(
         private EventStore $store,
-        private EventSerializer $serializer,
+        private EventSerializer $serializer = new JacksonSerializer(),
     ) {
     }
 
