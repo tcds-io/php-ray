@@ -8,6 +8,7 @@ use Tcds\Io\Ray\EventProcessor;
 use Tcds\Io\Ray\EventStore;
 use Tcds\Io\Ray\EventSubscriberMap;
 use Tcds\Io\Ray\HandlerResolver;
+use Tcds\Io\Ray\RayEvent;
 
 readonly class SequentialEventProcessor implements EventProcessor
 {
@@ -25,12 +26,17 @@ readonly class SequentialEventProcessor implements EventProcessor
     {
         while ($event = $store->next()) {
             foreach ($this->subscribers->of($event->name) as $subscriber) {
-                $callable = $this->resolver->resolve($subscriber);
-
-                $domainEvent = $this->hydrator->hydrate($event->name, $event->payload, $subscriber);
-
-                $callable($domainEvent);
+                $this->dispatch($event, $subscriber);
             }
         }
+    }
+
+    protected function dispatch(RayEvent $event, callable|string $subscriber): void
+    {
+        $callable = $this->resolver->resolve($subscriber);
+
+        $domainEvent = $this->hydrator->hydrate($event->name, $event->payload, $subscriber);
+
+        $callable($domainEvent);
     }
 }
