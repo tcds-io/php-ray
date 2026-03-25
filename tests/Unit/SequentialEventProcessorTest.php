@@ -182,7 +182,7 @@ class SequentialEventProcessorTest extends TestCase
         $hydrator = $this->createMock(EventHydrator::class);
         $hydrator->expects($this->exactly(2))
             ->method('hydrate')
-            ->willReturnCallback(function (string $name, array $payload, callable|string $subscriber) use (&$hydrateCalls): object {
+            ->willReturnCallback(function (string $name, array $payload, callable $subscriber) use (&$hydrateCalls): object {
                 $hydrateCalls[] = $subscriber;
                 return (object) $payload;
             });

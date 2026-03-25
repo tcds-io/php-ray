@@ -16,5 +16,5 @@ interface EventHydrator
      *
      * @param array<string, mixed> $payload
      */
-    public function hydrate(string $name, array $payload, callable|string $subscriber): object;
+    public function hydrate(string $name, array $payload, callable $subscriber): object;
 }
